@@ -19,8 +19,12 @@ drive = str.capitalize(input("Which letter drive do you want to use? "))
 for filename in os.listdir(directory):
     # exclude directories ("If filename is a file")
     if os.path.isfile(filename):
+        if filename[:4] == 'IMG_':
+            realFilename = filename[4:]
+        else:
+            realFilename = filename
         full_path = os.path.join(directory, filename)
-        month = filename[:6]
+        month = realFilename[:6]
         month_folder = month[:4] + '-' + month[4:6]
         extension = full_path[-3:]
         if extension == 'jpg':
@@ -31,15 +35,19 @@ for filename in os.listdir(directory):
         destination = f"{drive}:/{file_type}/{month_folder}/"
 
         if extension == 'jpg' or extension == 'mp4':
-            # print('filename is:', filename)
+            print('realFilename is:', realFilename)
             print('full path is:', full_path)
-            # print('month is:', month)
-            # print('month_folder is',month_folder)
-            # print('extension is:', extension)
-            print('has been moved to:')
-            print('destination is:', destination)
+            print('month is:', month)
+            print('month_folder is',month_folder)
+            print('extension is:', extension)
+            print('File has been moved to destination:', destination)
             print('\n')
 
             os.makedirs(destination, exist_ok=True)
-            shutil.copy(full_path, (destination+filename))
+            shutil.copy(full_path, (destination+realFilename))
             os.remove(full_path)
+
+
+input('press enter to exit')
+
+exit()
